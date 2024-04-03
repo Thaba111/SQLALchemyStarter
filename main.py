@@ -25,22 +25,30 @@ if not person1_record:
     person1_record = User(username=person1, email=email1)
     session.add(person1_record)
 
-
 # delete 
 # 1. look for the record to delete if it exists 
 # 2. sesison.delete(persontodelete)
 # 3. session.commit() 
 
+person_to_delete = session.query(User).filter_by(username=person1).first()
+# Check if the record exists
+if person_to_delete:
+    # Delete the record
+    session.delete(person_to_delete)
+    # Commit the transaction
+    session.commit()
+    print("Record deleted successfully")
+else:
+    print("Record not found, nothing to delete")
 
-
-# # update 
-# persontoUpdate = session.query(User).filter_by(username=person1).first()
-# if not persontoUpdate:
-#     print("user cannot be found")
-# else: 
-#     persontoUpdate.username = "Mary"
-#     persontoUpdate.email = "mary00@gmail.com"
-#     session.commit()
+ # update 
+persontoUpdate = session.query(User).filter_by(username=person1).first()
+if not persontoUpdate:
+     print("user cannot be found")
+else: 
+     persontoUpdate.username = "Mary"
+     persontoUpdate.email = "mary00@gmail.com"
+     session.commit()
 
 # read the data 
 all_persons  = session.query(User).all()
